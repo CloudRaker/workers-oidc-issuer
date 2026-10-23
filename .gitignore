@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.wrangler/
+.dev.vars
+.env
+*.pem
+*.jwk
+*.key
+*.p8
+coverage/
+worker-configuration.d.ts
+.DS_Store

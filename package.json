@@ -1,0 +1,13 @@
+{
+  "name": "workers-oidc-issuer-monorepo",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.18" },
+  "packageManager": "pnpm@11.9.0",
+  "scripts": {
+    "test": "pnpm --filter workers-oidc-issuer build && pnpm -r --workspace-concurrency=1 test",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r --if-present lint",
+    "build": "pnpm -r build"
+  }
+}

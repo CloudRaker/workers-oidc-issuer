@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "oidc-issuer",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-13",
+  // no_nodejs_compat*: signer uses WebCrypto only. disable_ctx_exports: fetch handler can never call Issuer with runtime props.
+  "compatibility_flags": ["no_nodejs_compat", "no_nodejs_compat_v2", "disable_ctx_exports"],
+  // "account_id": "<set by Setup when the login reaches more than one account>",
+  "preview_urls": false,
+  "vars": {
+    "ISSUER": "https://PENDING",          // REQUIRED https origin, no path/query/hash/trailing slash
+    "ROTATION": "manual",                 // "manual" | "auto"
+    "ACTIVE_KID": "k0",                   // manual mode: the signing kid; published set = every OIDC_KEY_<kid> binding
+    "TOKEN_TTL_SECONDS": "300"            // default AND ceiling; validated in [60, 3600]
+  },
+  "secrets_store_secrets": [
+    { "binding": "OIDC_KEY_k0", "store_id": "REPLACE_ME", "secret_name": "OIDC_KEY_k0" }
+  ],
+  "observability": { "enabled": true }
+}

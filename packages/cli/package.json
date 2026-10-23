@@ -1,0 +1,31 @@
+{
+  "name": "workers-oidc-issuer",
+  "version": "0.1.0",
+  "private": true,
+  "description": "TUI to set up, deploy and rotate keys for a self-hosted OIDC workload-identity issuer on Cloudflare Workers",
+  "license": "MIT",
+  "type": "module",
+  "bin": { "workers-oidc-issuer": "./dist/bin.js" },
+  "files": ["dist"],
+  "engines": { "node": ">=22.18" },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "pretest": "pnpm run build",
+    "dev": "tsx src/bin.tsx",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "ink": "8.0.0",
+    "jsonc-parser": "3.3.1",
+    "react": "19.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "22.20.5",
+    "@types/react": "19.3.0",
+    "ink-testing-library": "4.0.0",
+    "tsx": "4.23.15",
+    "typescript": "7.0.2",
+    "vitest": "5.0.5"
+  }
+}

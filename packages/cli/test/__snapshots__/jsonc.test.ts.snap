@@ -1,0 +1,164 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`jsonc edits > add/remove secret binding 1`] = `
+"{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "oidc-issuer",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-13",
+  // no_nodejs_compat*: signer uses WebCrypto only. disable_ctx_exports: fetch handler can never call Issuer with runtime props.
+  "compatibility_flags": ["no_nodejs_compat", "no_nodejs_compat_v2", "disable_ctx_exports"],
+  // "account_id": "<set by Setup when the login reaches more than one account>",
+  "preview_urls": false,
+  "vars": {
+    "ISSUER": "https://PENDING",          // REQUIRED https origin, no path/query/hash/trailing slash
+    "ROTATION": "manual",                 // "manual" | "auto"
+    "ACTIVE_KID": "k0",                   // manual mode: the signing kid; published set = every OIDC_KEY_<kid> binding
+    "TOKEN_TTL_SECONDS": "300"            // default AND ceiling; validated in [60, 3600]
+  },
+  "secrets_store_secrets": [
+    {
+      "binding": "OIDC_KEY_k1",
+      "store_id": "fedcba9876543210fedcba9876543210",
+      "secret_name": "OIDC_KEY_k1"
+    }
+  ],
+  "observability": { "enabled": true }
+}
+"
+`;
+
+exports[`jsonc edits > enableAutoMode then enableManualMode 1`] = `
+"{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "oidc-issuer",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-13",
+  // no_nodejs_compat*: signer uses WebCrypto only. disable_ctx_exports: fetch handler can never call Issuer with runtime props.
+  "compatibility_flags": ["no_nodejs_compat", "no_nodejs_compat_v2", "disable_ctx_exports"],
+  "account_id": "0123456789abcdef0123456789abcdef",
+  // "account_id": "<set by Setup when the login reaches more than one account>",
+  "preview_urls": false,
+  "vars": {
+    "ISSUER": "https://PENDING",          // REQUIRED https origin, no path/query/hash/trailing slash
+    "ROTATION": "auto",                 // "manual" | "auto"
+    "TOKEN_TTL_SECONDS": "300",            // default AND ceiling; validated in [60, 3600]
+    "CF_ACCOUNT_ID": "0123456789abcdef0123456789abcdef",
+    "SECRETS_STORE_ID": "fedcba9876543210fedcba9876543210",
+    "KEYSET_SECRET_NAME": "OIDC_KEYSET",
+    "ROTATION_INTERVAL_HOURS": "720",
+    "ROTATION_GRACE_HOURS": "24",
+    "ROTATE_NONCE": "",
+    "REVOKE_BEFORE": "",
+    "RETIRE_KIDS": "[]"
+  },
+  "secrets_store_secrets": [
+    {
+      "binding": "OIDC_KEYSET",
+      "store_id": "fedcba9876543210fedcba9876543210",
+      "secret_name": "OIDC_KEYSET"
+    },
+    {
+      "binding": "CF_API_TOKEN",
+      "store_id": "fedcba9876543210fedcba9876543210",
+      "secret_name": "OIDC_CF_API_TOKEN"
+    }
+  ],
+  "durable_objects": {"bindings":[{"name":"KEYRING","class_name":"KeyRing"}]},
+  "migrations": [{"tag":"v1","new_sqlite_classes":["KeyRing"]}],
+  "triggers": {"crons":["17 * * * *"]},
+  "observability": { "enabled": true }
+}
+"
+`;
+
+exports[`jsonc edits > enableAutoMode then enableManualMode 2`] = `
+"{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "oidc-issuer",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-13",
+  // no_nodejs_compat*: signer uses WebCrypto only. disable_ctx_exports: fetch handler can never call Issuer with runtime props.
+  "compatibility_flags": ["no_nodejs_compat", "no_nodejs_compat_v2", "disable_ctx_exports"],
+  "account_id": "0123456789abcdef0123456789abcdef",
+  // "account_id": "<set by Setup when the login reaches more than one account>",
+  "preview_urls": false,
+  "vars": {
+    "ISSUER": "https://PENDING",          // REQUIRED https origin, no path/query/hash/trailing slash
+    "ROTATION": "manual",                 // "manual" | "auto"
+    "TOKEN_TTL_SECONDS": "300",            // default AND ceiling; validated in [60, 3600]
+    "ACTIVE_KID": "k20261022abcd"
+  },
+  "secrets_store_secrets": [
+    {
+      "binding": "OIDC_KEY_k20261022abcd",
+      "store_id": "fedcba9876543210fedcba9876543210",
+      "secret_name": "OIDC_KEY_k20261022abcd"
+    }
+  ],
+  "migrations": [{"tag":"v1","new_sqlite_classes":["KeyRing"]}],
+  "triggers": {
+    "crons": []
+  },
+  "observability": { "enabled": true }
+}
+"
+`;
+
+exports[`jsonc edits > setAccountId sits after compatibility_flags and survives other edits 1`] = `
+"{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "oidc-issuer",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-13",
+  // no_nodejs_compat*: signer uses WebCrypto only. disable_ctx_exports: fetch handler can never call Issuer with runtime props.
+  "compatibility_flags": ["no_nodejs_compat", "no_nodejs_compat_v2", "disable_ctx_exports"],
+  "account_id": "0123456789abcdef0123456789abcdef",
+  // "account_id": "<set by Setup when the login reaches more than one account>",
+  "preview_urls": false,
+  "vars": {
+    "ISSUER": "https://a.example",          // REQUIRED https origin, no path/query/hash/trailing slash
+    "ROTATION": "manual",                 // "manual" | "auto"
+    "ACTIVE_KID": "k0",                   // manual mode: the signing kid; published set = every OIDC_KEY_<kid> binding
+    "TOKEN_TTL_SECONDS": "300"            // default AND ceiling; validated in [60, 3600]
+  },
+  "secrets_store_secrets": [
+    {
+      "binding": "OIDC_KEY_k0",
+      "store_id": "REPLACE_ME",
+      "secret_name": "OIDC_KEY_k0"
+    },
+    {
+      "binding": "OIDC_KEY_k1",
+      "store_id": "fedcba9876543210fedcba9876543210",
+      "secret_name": "OIDC_KEY_k1"
+    }
+  ],
+  "observability": { "enabled": true }
+}
+"
+`;
+
+exports[`jsonc edits > setVar / setIssuer / setActiveKid 1`] = `
+"{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "oidc-issuer",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-13",
+  // no_nodejs_compat*: signer uses WebCrypto only. disable_ctx_exports: fetch handler can never call Issuer with runtime props.
+  "compatibility_flags": ["no_nodejs_compat", "no_nodejs_compat_v2", "disable_ctx_exports"],
+  // "account_id": "<set by Setup when the login reaches more than one account>",
+  "preview_urls": false,
+  "vars": {
+    "ISSUER": "https://oidc.example.com",          // REQUIRED https origin, no path/query/hash/trailing slash
+    "ROTATION": "manual",                 // "manual" | "auto"
+    "ACTIVE_KID": "k20261022abcd",                   // manual mode: the signing kid; published set = every OIDC_KEY_<kid> binding
+    "TOKEN_TTL_SECONDS": "600"            // default AND ceiling; validated in [60, 3600]
+  },
+  "secrets_store_secrets": [
+    { "binding": "OIDC_KEY_k0", "store_id": "REPLACE_ME", "secret_name": "OIDC_KEY_k0" }
+  ],
+  "observability": { "enabled": true }
+}
+"
+`;

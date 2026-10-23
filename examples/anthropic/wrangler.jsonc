@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "example-anthropic",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-13",
+  "preview_urls": false,
+  // Not secrets: IDs from the Claude Console federation setup (see docs/anthropic.md).
+  "vars": {
+    "ANTHROPIC_ORGANIZATION_ID": "00000000-0000-0000-0000-000000000000",
+    "ANTHROPIC_FEDERATION_RULE_ID": "fdrl_REPLACE_ME",
+    "ANTHROPIC_SERVICE_ACCOUNT_ID": "svac_REPLACE_ME",
+    "ANTHROPIC_WORKSPACE_ID": "wrkspc_REPLACE_ME",
+    "ANTHROPIC_MODEL": "claude-opus-5-5"
+  },
+  // props are fixed at deploy time. Only a deployer of THIS Worker can change sub/aud.
+  "services": [
+    {
+      "binding": "OIDC",
+      "service": "oidc-issuer",
+      "entrypoint": "Issuer",
+      "props": { "sub": "example-anthropic", "aud": ["https://api.anthropic.com"] }
+    }
+  ],
+  "observability": { "enabled": true }
+}

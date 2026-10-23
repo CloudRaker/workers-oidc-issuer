@@ -1,0 +1,22 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "example-openai",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-13",
+  "preview_urls": false,
+  // Not secrets: IDs from the OpenAI organization settings (see docs/openai.md).
+  "vars": {
+    "OPENAI_IDENTITY_PROVIDER_ID": "REPLACE_ME",
+    "OPENAI_SERVICE_ACCOUNT_ID": "REPLACE_ME"
+  },
+  // props are fixed at deploy time. Only a deployer of THIS Worker can change sub/aud.
+  "services": [
+    {
+      "binding": "OIDC",
+      "service": "oidc-issuer",
+      "entrypoint": "Issuer",
+      "props": { "sub": "example-openai", "aud": ["https://api.openai.com"] }
+    }
+  ],
+  "observability": { "enabled": true }
+}

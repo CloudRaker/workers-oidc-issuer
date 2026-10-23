@@ -1,0 +1,29 @@
+// Test-only config. Same Worker as ../wrangler.jsonc, but WITHOUT `disable_ctx_exports`: the vitest plugin
+// routes service bindings to named entrypoints (Issuer) through ctx.exports and skips that wiring when the flag
+// is set (verified in @cloudflare/vitest-plugin 1.4.7 pool source). Production keeps the flag; see static.test.ts.
+// The plugin also drops no_nodejs_compat_v2 for the runner (pool/index.mjs getNodeCompat), so Buffer/process exist in
+// tests; scripts/lint-bundle.mjs catches Node globals, this suite does not.
+{
+  "name": "oidc-issuer",
+  "main": "../src/index.ts",
+  "compatibility_date": "2026-10-13",
+  "compatibility_flags": ["no_nodejs_compat", "no_nodejs_compat_v2"],
+  "vars": {
+    "ISSUER": "https://oidc.example.com",
+    "ROTATION": "manual",
+    "ACTIVE_KID": "k0",
+    "TOKEN_TTL_SECONDS": "300",
+    "CF_ACCOUNT_ID": "0123456789abcdef0123456789abcdef",
+    "SECRETS_STORE_ID": "fedcba9876543210fedcba9876543210",
+    "KEYSET_SECRET_NAME": "OIDC_KEYSET"
+  },
+  "secrets_store_secrets": [
+    { "binding": "OIDC_KEY_k0", "store_id": "fedcba9876543210fedcba9876543210", "secret_name": "OIDC_KEY_k0" },
+    { "binding": "OIDC_KEY_k1", "store_id": "fedcba9876543210fedcba9876543210", "secret_name": "OIDC_KEY_k1" },
+    { "binding": "OIDC_KEY_k2", "store_id": "fedcba9876543210fedcba9876543210", "secret_name": "OIDC_KEY_k2" },
+    { "binding": "OIDC_KEYSET", "store_id": "fedcba9876543210fedcba9876543210", "secret_name": "OIDC_KEYSET" },
+    { "binding": "CF_API_TOKEN", "store_id": "fedcba9876543210fedcba9876543210", "secret_name": "OIDC_CF_API_TOKEN" }
+  ],
+  "durable_objects": { "bindings": [{ "name": "KEYRING", "class_name": "KeyRing" }] },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["KeyRing"] }]
+}

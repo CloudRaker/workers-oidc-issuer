@@ -1,0 +1,21 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "example-consumer",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-13",
+  "preview_urls": false,
+  "vars": {
+    "AWS_REGION": "us-east-1",
+    "AWS_ROLE_ARN": "arn:aws:iam::123456789012:role/example-consumer"
+  },
+  // props are fixed at deploy time. Only a deployer of THIS Worker can change sub/aud.
+  "services": [
+    {
+      "binding": "OIDC",
+      "service": "oidc-issuer",
+      "entrypoint": "Issuer",
+      "props": { "sub": "example-consumer", "aud": ["sts.amazonaws.com"] }
+    }
+  ],
+  "observability": { "enabled": true }
+}
